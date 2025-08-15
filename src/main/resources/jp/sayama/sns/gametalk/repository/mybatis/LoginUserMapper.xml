@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.sayama.sns.gametalk.repository.mybatis.LoginUserMapper">
+
+  <resultMap id="LoginUserMap" type="jp.sayama.sns.gametalk.model.LoginUser">
+    <id     column="user_id"   property="userId"/>
+    <result column="user_name" property="userName"/>
+    <result column="password"  property="password"/>
+    <result column="enabled"   property="enabled"/>
+  </resultMap>
+
+  <!-- ユーザー名で1件取得 -->
+  <select id="findByUserName" parameterType="string" resultMap="LoginUserMap">
+    SELECT user_id, user_name, password, enabled
+    FROM login_users
+    WHERE user_name = #{username}
+  </select>
+
+  <!-- 登録 -->
+  <insert id="register" parameterType="jp.sayama.sns.gametalk.model.LoginUser">
+    INSERT INTO login_users (user_id, user_name, password, enabled)
+    VALUES (#{userId}, #{userName}, #{password}, #{enabled})
+  </insert>
+
+  <!-- 指定ユーザー以外を取得 -->
+  <select id="findAllExcept" parameterType="string" resultMap="LoginUserMap">
+    SELECT user_id, user_name, password, enabled
+    FROM login_users
+     WHERE user_name &lt;&gt; #{username}
+  </select>
+
+</mapper>

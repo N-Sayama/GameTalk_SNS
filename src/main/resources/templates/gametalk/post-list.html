@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>投稿一覧</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<!-- サイドバー -->
+	<div th:replace="~{fragments/sidebar :: menu}"></div>
+	
+	<div class="main-content">
+	<h1>最近のチャット</h1></div>
+
+    <div class="post-container">
+        <div th:each="post : ${posts}" class="post-card">
+			
+            <div class="post-header">
+                <img th:src="@{${post.profile.iconPath}}" alt="icon" class="profile-icon">
+				
+                <div class="post-header-content">
+					<div class="post-header-top">
+                    <div class="username" th:text="${post.profile.name}">ユーザー名</div>
+                    <div class="timestamp" th:if="${post.createdAt != null}"
+					th:text="${#temporals.format(post.createdAt, 'yyyy/MM/dd HH:mm')}">投稿時刻</div>
+					</div>
+					</div>
+                </div>
+            <div class="post-content" th:text="${post.content}">投稿内容</div>
+			
+			<!-- 画像がある場合のみ -->
+			<div th:if="${post.mediaType == 'image'}">
+				<img th:src="@{'/' + ${post.mediaPath}}" style="max-width:100%; margin-top:10px;" />
+			</div>
+
+			<!-- 動画がある場合のみ -->
+			<div th:if="${post.mediaType == 'video'}">
+			    <video th:src="@{'/uploads/' + ${post.mediaPath}}" controls class="post-media"></video>
+			</div>
+
+        </div>
+    </div>
+</body>
+</html>

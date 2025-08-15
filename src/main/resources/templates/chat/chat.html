@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>チャット</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <!-- サイドバー -->
+    <div th:replace="~{fragments/sidebar :: menu}"></div>
+
+    <div class="container">
+        <h2 th:text="'チャット相手: ' + ${recipient}">チャット相手: ユーザー名</h2>
+
+        <div class="chat-box">
+            <div th:each="message : ${messages}">
+                <p>
+                    <strong th:text="${message.sender}">送信者</strong>: 
+                    <span th:text="${message.content}">メッセージ内容</span>
+                    <span th:text="${#temporals.format(message.timestamp, 'HH:mm')}">時間</span>
+                </p>
+            </div>
+        </div>
+
+		<!-- メッセージ送信フォーム -->
+		            <form th:action="@{'/gametalk/chat/' + ${otherUser.username} + '/send'}" method="post">
+		                <textarea name="content" rows="3" placeholder="メッセージを入力" required></textarea>
+		                <br>
+            <button type="submit">送信</button>
+        </form>
+    </div>
+</body>
+</html>

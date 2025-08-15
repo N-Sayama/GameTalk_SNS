@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>プロフィール編集</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<div class="container">
+		<!-- サイドバー -->
+		<div th:replace="~{fragments/sidebar :: menu}"></div>
+		
+    <h1>プロフィール編集</h1>
+
+    <form method="post" th:action="@{/gametalk/profile/update}" enctype="multipart/form-data">
+        <input type="hidden" th:name="id" th:value="${profile.id}" />
+
+        <label>ユーザー名：</label>
+        <input type="text" th:name="name" th:value="${profile.name}" /><br><br>
+		
+		<label>アイコン画像:</label>
+		<input type="file" th:name="icon" />
+
+        <label>遊んでいるゲーム：</label>
+        <input type="text" th:name="games" th:value="${profile.games}" /><br><br>
+
+        <label>自己紹介：</label>
+        <input type="text" th:name="comment" th:value="${profile.comment}" /><br><br>
+
+        <label>追加情報：</label>
+        <input type="text" th:name="extra" th:value="${profile.extra}" /><br><br>
+		
+        <button type="submit">更新</button>
+    </form>
+	</body>
+</body>
+</html>

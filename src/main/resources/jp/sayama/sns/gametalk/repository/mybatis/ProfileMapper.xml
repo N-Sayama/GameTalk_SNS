@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.sayama.sns.gametalk.repository.mybatis.ProfileMapper">
+
+
+<!-- 一覧取得 -->
+<select id="findAll" resultType="jp.sayama.sns.gametalk.model.Profile">
+SELECT
+id,
+name,
+games,
+comment,
+extra,
+icon_path AS iconPath,
+user_name AS userName
+
+FROM profiles
+</select>
+
+<!-- ID指定で1件取得 -->
+<select id="findById" resultType="jp.sayama.sns.gametalk.model.Profile">
+SELECT
+id,
+name,
+games,
+comment,
+extra,
+icon_path AS iconPath,
+user_name AS userName
+
+FROM profiles
+WHERE id = #{id}
+</select>
+
+<select id="findByUserName" resultType="jp.sayama.sns.gametalk.model.Profile">
+  SELECT
+    id,
+    name,
+    games,
+    comment,
+    extra,
+    icon_path AS iconPath,
+    user_name AS userName
+  FROM profiles
+  WHERE user_name = #{userName}
+</select>
+
+<select id="findByNameContaining" resultType="jp.sayama.sns.gametalk.model.Profile">
+  SELECT
+    id,
+    name,
+    games,
+    comment,
+    extra,
+    icon_path AS iconPath,
+    user_name AS userName
+  FROM profiles
+  WHERE name LIKE CONCAT('%', #{keyword}, '%')
+</select>
+
+
+<!-- 登録 -->
+<insert id="register" parameterType="jp.sayama.sns.gametalk.model.Profile">
+INSERT INTO profiles (
+name,
+games,
+comment,
+extra,
+icon_Path,
+user_name
+
+) VALUES (
+ 	#{name},
+    #{games},
+    #{comment},
+    #{extra},
+    #{iconPath},
+    #{userName}
+)
+</insert>
+
+<!-- 更新 -->
+<update id="update" parameterType="jp.sayama.sns.gametalk.model.Profile">
+UPDATE profiles
+SET
+name = #{name},
+games = #{games},
+comment = #{comment},
+extra = #{extra},
+icon_path = #{iconPath},
+user_name = #{userName}
+
+WHERE id = #{id}
+</update>
+
+<!-- 削除 -->
+<delete id="delete">
+DELETE FROM profiles
+WHERE id = #{id}
+</delete>
+
+
+
+</mapper>

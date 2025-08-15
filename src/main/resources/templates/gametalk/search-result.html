@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>検索結果</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+	<!-- サイドバー -->
+	<div th:replace="~{fragments/sidebar :: menu}"></div>
+	<!-- メインコンテンツ -->
+	<div class="main-content">
+		<h2>「[[${keyword}]]」の検索結果</h2>
+		<div th:if="${#lists.isEmpty(results)}">
+			<p>該当するユーザーが見つかりませんでした。</p>
+		</div>
+		
+		<ul class="user-list" th:if="${not #lists.isEmpty(results)}">
+			<li th:each="profile : ${results}">
+				<a th:href="@{'/gametalk/profile/view/' + ${profile.userName}}" class="user-entry">
+					<img th:if="${profile.iconPath != null}" th:src="@{${profile.iconPath}}" alt="プロフィール画像" class="user-icon"/>
+					<img th:if="${profile.iconPath == null}" th:src="@{/images/default.png}" alt="デフォルト画像" class="user-icon"/ >
+					<span th:text="${profile.name}">ユーザー名</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>	
+</body>
+</html>

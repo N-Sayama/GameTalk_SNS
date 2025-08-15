@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>プロフィール作成</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<!-- サイドバー -->
+		<div th:replace="~{fragments/sidebar :: menu}"></div>
+		
+    <h1>プロフィール作成</h1>
+
+    <form method="post" th:action="@{/gametalk/profile/register}" enctype="multipart/form-data">
+        
+		<label for="name">ユーザー名:</label>
+		<input type="text" id="name" name="name" required><br><br>
+
+		<label for="games">遊んでいるゲーム:</label>
+		<input type="text" id="games" name="games"><br><br>
+
+		<label for="comment">ひとことコメント:</label>
+		<input type="text" id="comment" name="comment"><br><br>
+
+		<label for="extra">追加情報:</label>
+		<input type="text" id="extra" name="extra"><br><br>
+		
+		<label for="icon">プロフィール画像:</label>
+		<input type="file" id="icon" name="icon" accept="image/*"><br><br>
+				
+        <button type="submit">登録</button>
+    </form>
+	
+	<h1>新しい投稿を作成</h1>
+	<form th:action="@{/gametalk/create}" method="post" th:object="${post}">
+	    <textarea th:field="*{content}" placeholder="投稿内容を入力してください"></textarea>
+	    <button type="submit">投稿</button>
+	</form>
+
+    <br>
+	<!--/* 一覧画面へ遷移するためのリンク。 */-->
+    <a href="profile.html" th:href="@{/gametalk/}">戻る</a>
+</body>
+</html>

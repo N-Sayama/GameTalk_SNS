@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.sayama.sns.gametalk.repository.mybatis.MessageRepository">
+
+    <insert id="save">
+        INSERT INTO messages (sender, recipient, content, timestamp)
+        VALUES (#{sender}, #{recipient}, #{content}, #{timestamp})
+    </insert>
+
+    <select id="findMessagesBetweenUsers" resultType="jp.sayama.sns.gametalk.model.Message">
+        SELECT * FROM messages
+        WHERE (sender = #{sender} AND recipient = #{recipient})
+           OR (sender = #{recipient} AND recipient = #{sender})
+        ORDER BY timestamp ASC
+    </select>
+
+</mapper>

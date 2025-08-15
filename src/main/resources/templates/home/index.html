@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!--/*
+	th,secから始まる属性はHTMLの仕様では許可されていない。
+	そのため、htmlタグにxmlns:th属性とxmlns:sec属性を追加して、IDLが警告を出さないようにしている。
+*/-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>Gametalk SNS</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+	<div class="container">
+	  <!-- ログインユーザーにだけサイドバーを表示 -->
+	  <div sec:authorize="isAuthenticated()">
+	    <div th:replace="~{fragments/sidebar :: menu}"></div>
+	  </div>
+
+	  <!-- ▼ ログアウト時 or 未ログイン時は no-sidebar を付与 -->
+	  <div class="main-content"
+	       th:classappend="${(param.logout != null) or #authorization.expression('isAnonymous()')} ? ' no-sidebar' : ''">
+
+
+	    <h1 class="page-title" style="color: #2c3e50;">Gametalkへ　ようこそ</h1>
+
+	    <!-- ログアウト完了メッセージ（?logout のときだけ表示） -->
+		<div th:if="${param.logout != null}" class="logout-panel">
+
+	      <h2 class="logout-title">ログアウト完了</h2>
+	      <p class="logout-text">ご利用ありがとうございました。<br>またのご利用をお待ちしています。</p>
+
+	      <div class="logout-actions">
+	        <a class="btn panel-primary" th:href="@{/home/login}">ログインページへ</a>
+	        <a class="btn panel-ghost" th:href="@{/}">ホームに戻る</a>
+	      </div>
+	    </div>
+
+		<!-- ★ 未ログインユーザー向け（ゲストカード）-->
+		<div sec:authorize="isAnonymous()" th:if="${param.logout == null}" class="guest-card">
+		  <p>ようこそゲストさん。ログインしてはじめましょう。</p>
+		  <a class="btn primary" th:href="@{/home/login}">ログイン</a>
+		  <a class="btn ghost"   th:href="@{/signin}">サインイン</a>
+		</div>
+
+	    <!-- ▼この下は既存のタイムライン（認証済みのみ表示） -->
+	    <div class="timeline">
+	      <div sec:authorize="isAuthenticated()">
+	        <p><strong th:text="${#authentication.name}"></strong> さん、こんにちは！</p>
+
+	        <div th:each="post : ${posts}" class="post">
+	          <p class="post-author" th:text="${post.author}">ユーザー名</p>
+	          <p class="post-content" th:text="${post.content}">投稿内容</p>
+	          <div class="post-actions">
+	            <span>❤️ いいね</span>
+	            <span>💬 返信</span>
+	          </div>
+	        </div>
+
+	        <div class="post">
+	          <div class="post-content">投稿内容がここに表示されます。</div>
+	          <div class="post-actions">
+	            <span>❤️ いいね</span>
+	            <span>💬 返信</span>
+	          </div>
+	        </div>
+	      </div>
+	    </div><!-- /.timeline -->
+	  </div><!-- /.main-content -->
+	</div><!-- /.container -->
+</body>
+</html>

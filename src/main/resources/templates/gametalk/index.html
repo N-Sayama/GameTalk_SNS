@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>プロフィール一覧</title>
+</head>
+<body>
+	<h1>プロフィール一覧</h1>
+
+	<!-- ログアウト（ログイン機能を戻す場合） -->
+	<form method="post" th:action="@{/logout}">
+		<button type="submit">ログアウト</button>
+	</form>
+
+	<!-- 新規プロフィール作成 -->
+	<a th:href="@{/gametalk/create}">＋ プロフィール作成</a>
+
+	<!-- プロフィールが存在しない場合の表示 -->
+	<p th:if="${profiles.isEmpty()}">プロフィールが登録されていません。</p>
+
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>ユーザー名</th>
+				<th>プレイ中ゲーム</th>
+				<th>詳細</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="profile : ${profiles}">
+				<td th:text="${profile.id}"></td>
+				<td th:text="${profile.name}"></td>
+				<td th:text="${profile.games}"></td>
+				<td>
+					<a th:href="@{/gametalk/edit/{id}(id=${profile.id})}">編集</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

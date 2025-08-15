@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--/*
+	thから始まる属性はHTMLの仕様では許可されていない。
+	そのため、htmlタグにxmlns:th属性を追加して、IDLが警告を出さないようにしている。
+ */-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>プロフィール</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	
+	<div class="container">
+	<!-- 左サイドバー -->
+	<div th:replace="~{fragments/sidebar :: menu}"></div>
+	<!-- 右コンテンツ -->
+	<div class="main-content">
+		<div class="profile-header-title">
+				
+			<h1>プロフィール</h1></div>
+	
+			<!-- ✅ userが存在する場合のみ表示 -->
+			<div th:if="${profile != null}">
+				<div class="profile-header">
+				<div class="profile-main-row">		
+				<div class="profile-img-name">
+				<!-- プロフィール画像 -->
+					<img th:src="@{${profile.iconPath}}" alt="プロフィール画像"
+					 	 style="width:100px; height:100px; border-radius:50%; object-fit: cover; margin-bottom: 5px;">	
+					<h2><span th:text="${username}"></span></h2><!--ユーザーネーム-->
+					
+
+				</div>
+					
+				<div class="profile-edit-button">
+					<div th:if="${profile.id != null}">
+						<a th:href="@{/gametalk/profile/edit/{id}(id=${profile.id})}" class="edit-button">
+						    プロフィールを編集する
+						</a>
+					</div>
+				</div>
+				</div>
+			</div>
+				<div class="profile-content-wrapper">
+					<h3>自己紹介</h3>
+					<div class="profile-box">
+						<p th:text="${profile.comment}"></p>
+					</div>
+	
+					<h3>プレイゲーム</h3>
+						<div class="profile-box">
+							<p th:text="${profile.games}"></p>
+						</div>
+	
+					<h3>追加情報</h3>
+						<div class="profile-box">
+							<p th:text="${profile.extra}"></p>
+						</div>
+						<a th:href="@{/gametalk/profile/view/{username}(username=${profile.userName})}">
+						    <button>プロフィールを見る</button>
+						</a>
+
+	<!-- ✅ profileがnullのとき -->
+	<div th:if="${profile == null}" class="no-profile-message">
+	    <h2>プロフィールがまだ登録されていません</h2>
+	    <p>プロフィールを登録して、他のゲーマーとつながろう！</p>
+	    <a th:href="@{/gametalk/profile/create}">
+	        <button class="create-profile-button">プロフィールを作成する</button>
+	    </a>
+	</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

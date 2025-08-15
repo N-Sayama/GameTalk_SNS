@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>新規投稿</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+<body>
+	<div class="container">
+	<!-- サイドバー -->
+	<div th:replace="~{fragments/sidebar :: menu}"></div>
+	
+		<div class="main-content">
+			<h1>新規投稿を作成</h1>
+			
+			<form method="post" th:action="@{/gametalk/create}" enctype="multipart/form-data">
+	    		<textarea name="content" required></textarea>
+	    		<input type="file" name="mediaFile" accept="image/*,video/*" />
+	    		<button type="submit">投稿</button>
+			</form>
+
+	<br>
+	    <a th:href="@{/gametalk/posts}">戻る</a>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>チャット</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{fragments/sidebar :: menu}"></div>
+
+    <div class="main-content">
+        <h1>ダイレクトメッセージ</h1>
+        <p th:text="'ようこそ、' + ${username} + 'さん！'"></p>
+        <!-- ここにチャット機能を追加していきます -->
+    </div>
+</div>
+</body>
+</html>

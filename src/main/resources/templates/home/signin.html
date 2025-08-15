@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!--/*
+	thから始まる属性はHTMLの仕様では許可されていない。
+	そのため、htmlタグにxmlns:th属性を追加して、IDLが警告を出さないようにしている。
+ */-->
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>サインイン</title>
+	<link rel="stylesheet" th:href="@{/css/auth.css}">
+</head>
+
+<body>
+	<div class="auth-wrap">
+	   <div class="auth-card">
+		<div class="brand">GameTalk</div>
+		<h1 class="field">サインイン</h1>
+		
+	<!--/* 登録ボタンをクリックした際に /signin に対してPOSTメソッドでHTTPリクエストするためのフォーム。 */-->
+	<form class="auth-form" method="post" th:action="@{/signin}" th:object="${createLoginUserForm}">
+		<div class="field">
+			<label class="label" for="user-name">ユーザー名</label>
+			<input class="input" id="user-name" type="text" placeholder="ユーザー名" th:field="*{userName}">
+			<!--/* バリデーションエラーがある場合はエラー内容を表示する。 */-->
+			<span class="field-error" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" style="color: red;"></span>
+		</div>
+
+		<div>
+			<label class="label" for="password">パスワード</label>
+			<input class="input" id="password" type="password" placeholder="パスワード" th:field="*{password}">
+			<!--/* バリデーションエラーがある場合はエラー内容を表示する。 */-->
+			<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red;"></span>
+		</div>
+		
+		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+
+		<button type="submit">登録</button>
+	</form>
+	<!--/* ホーム画面へ遷移するためのリンク。 */-->
+	<a href="index.html" th:href="@{/}">戻る</a>
+	
+	<p class="note">
+	        すでにアカウントをお持ちですか？
+	        <a class="link" th:href="@{/home/login}">ログイン</a>
+			</p>
+		</div>
+	</div>
+</body>
+</html>

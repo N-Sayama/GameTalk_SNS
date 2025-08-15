@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>検索</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="search-page">
+<div class="container">
+    <div th:replace="~{fragments/sidebar :: menu}"></div>
+
+    <div class="main-content">
+        <h2>検索</h2>
+        <form th:action="@{/gametalk/profile/search}" method="get">
+            <input type="text" name="keyword" placeholder="検索" style="padding: 10px; width: 80%; border-radius: 5px;" />
+            <button type="submit">🔍</button>
+        </form>
+
+        <hr>
+
+    </div>
+</div>
+</body>
+</html>

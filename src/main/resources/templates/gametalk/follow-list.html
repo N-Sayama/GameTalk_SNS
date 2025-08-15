@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${title}">フォロー一覧</title>
+</head>
+<body>
+  <h2 th:text="${title}"></h2>
+  <ul>
+    <li th:each="name : ${userList}">
+      <a th:href="@{'/gametalk/profile/view/' + ${name}}" th:text="${name}">ユーザー名</a>
+    </li>
+  </ul>
+  <a th:href="@{/gametalk/}">戻る</a>
+</body>
+</html>

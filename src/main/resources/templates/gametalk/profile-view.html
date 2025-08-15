@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>他ユーザーのプロフィール</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div class="container">
+  <div th:replace="~{fragments/sidebar :: menu}"></div>
+  <div class="main-content">
+
+    <h1 th:text="${profile.name} + ' さんのプロフィール'">さんのプロフィール</h1>
+
+    <div class="profile-header">
+      <!-- iconPath が '/uploads/xxx.png' のような**絶対/相対URL**を保持している想定 -->
+      <img th:src="${profile.iconPath}" alt="プロフィール画像"
+           style="width:100px;height:100px;border-radius:50%;object-fit:cover;" />
+      <!-- 表示する “ユーザーID” は profile.userName を使用 -->
+      <p th:text="'ユーザー名: ' + ${profile.userName}">ユーザー名:</p>
+    </div>
+
+    <!-- 自分のプロフィールではない場合のみフォローボタンを出す -->
+    <div th:if="${#authentication != null and #authentication.name != profile.userName}">
+      <form th:if="${!isFollowing}"
+            th:action="@{/gametalk/follow/follow/{username}(username=${profile.userName})}"
+            method="post">
+        <button type="submit">フォロー</button>
+      </form>
+      <form th:if="${isFollowing}"
+            th:action="@{/gametalk/follow/unfollow/{username}(username=${profile.userName})}"
+            method="post">
+        <button type="submit">フォロー解除</button>
+      </form>
+    </div>
+
+    <p>
+      <a th:href="@{/gametalk/follow/following/{username}(username=${profile.userName})}">
+        フォロー中（<span th:text="${followingCount}">0</span>）
+      </a>
+    </p>
+    <p>
+      <a th:href="@{/gametalk/follow/followers/{username}(username=${profile.userName})}">
+        フォロワー（<span th:text="${followerCount}">0</span>）
+      </a>
+    </p>
+
+    <div class="profile-content-wrapper">
+      <h3>自己紹介</h3>
+      <div class="profile-box"><p th:text="${profile.comment}">自己紹介</p></div>
+
+      <h3>プレイゲーム</h3>
+      <div class="profile-box"><p th:text="${profile.games}">プレイゲーム</p></div>
+
+      <h3>追加情報</h3>
+      <div class="profile-box"><p th:text="${profile.extra}">追加情報</p></div>
+
+      <!-- フォロー済みだけDMボタン表示（片側フォローOK前提：自分→相手） -->
+      <a th:if="${isFollowing}"
+         th:href="@{'/gametalk/chat/' + ${profile.userName}}">
+        メッセージ
+      </a>
+
+      <!-- ガードに引っかかって戻ってきた時の案内 -->
+      <div th:if="${param.needFollow}">
+        このユーザーにメッセージするには、まずフォローしてください。
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
